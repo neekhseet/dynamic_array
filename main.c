@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct {
+typedef struct
+{
     size_t capacity;
     size_t length;
     int *arr;
@@ -12,9 +13,9 @@ void init_vector(VECTOR *v, size_t initial_capacity);
 void free_vector(VECTOR *v);
 void push_back(VECTOR *v, int value);
 void pop_back(VECTOR *v);
-int get(VECTOR *v, int index);
-size_t size(VECTOR *v);
- 
+int get(VECTOR *v, size_t index);
+size_t length(VECTOR *v);
+
 int main(void)
 {
     VECTOR v;
@@ -26,7 +27,7 @@ int main(void)
     }
 
     puts("After push_back");
-    
+
     for (int i = 0; i < 10; i++)
     {
         printf("%d ", v.arr[i]);
@@ -35,7 +36,7 @@ int main(void)
     printf("\n");
 
     pop_back(&v);
-    
+
     puts("After pop_back");
     for (int i = 0; i < v.length; i++)
     {
@@ -50,15 +51,18 @@ int main(void)
     return 0;
 }
 
-void init_vector(VECTOR *v, size_t initial_capacity) {
+void init_vector(VECTOR *v, size_t initial_capacity)
+{
     v->capacity = initial_capacity;
     v->length = 0;
     v->arr = malloc(v->capacity * sizeof(int));
 
-    if (v->arr == NULL) exit(1);
+    if (v->arr == NULL)
+        exit(1);
 }
 
-void free_vector(VECTOR *v) {
+void free_vector(VECTOR *v)
+{
     free(v->arr);
 
     v->arr = NULL;
@@ -73,7 +77,8 @@ void push_back(VECTOR *v, int value)
         v->capacity = v->capacity * 2;
 
         int *new_arr = realloc(v->arr, v->capacity * sizeof(int));
-        if (new_arr == NULL) return;
+        if (new_arr == NULL)
+            return;
 
         v->arr = new_arr;
     }
@@ -88,10 +93,14 @@ void pop_back(VECTOR *v)
         v->length -= 1;
 }
 
-int get(VECTOR *v, int index) {
+int get(VECTOR *v, size_t index)
+{
+    if (index > v->length)
+        return;
     return v->arr[index];
 }
 
-size_t size(VECTOR *v) {
+size_t length(VECTOR *v)
+{
     return v->length;
 }
